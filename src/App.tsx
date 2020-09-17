@@ -1,7 +1,7 @@
 import React from 'react';
 
 import useContentful from './hooks/useContentful';
-import logo from './logo.svg';
+import Person from './components/Person';
 import './App.css';
 
 interface QueryData {
@@ -17,22 +17,14 @@ const query = `
 `;
 
 function App() {
-  const data = useContentful<QueryData>(query);
+  const { data, errors } = useContentful<QueryData>(query);
 
+  if (errors !== null) return <span>{errors.map((err) => err.message)}</span>;
   if (data === null) return <span>Loading...</span>;
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {data.person.name}
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
+      <Person person={data.person} />
     </div>
   );
 }
