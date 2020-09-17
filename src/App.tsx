@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+import useContentful from './hooks/useContentful';
 import logo from './logo.svg';
 import './App.css';
 
@@ -9,35 +11,13 @@ interface QueryData {
 const query = `
   query {
     person(id: "2RTmpNU09feS63WC5dNnz1") {
-    name
+      name
+    }
   }
-}
 `;
 
-const { REACT_APP_SPACE_ID, REACT_APP_CDA } = process.env;
-
 function App() {
-  const [data, setData] = useState<QueryData | null>(null);
-
-  const initialQuery = async () => {
-    const response = await window.fetch(
-      `https://graphql.contentful.com/content/v1/spaces/${REACT_APP_SPACE_ID}?access_token=${REACT_APP_CDA}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query }),
-      }
-    );
-
-    const { data } = await response.json();
-
-    setData(data);
-  };
-  useEffect(() => {
-    initialQuery();
-  }, []);
+  const data = useContentful<QueryData>(query);
 
   if (data === null) return <span>Loading...</span>;
 
