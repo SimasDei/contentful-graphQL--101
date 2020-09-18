@@ -10,8 +10,11 @@ interface QueryData {
 
 const query = `
   query {
-    person(id: "2RTmpNU09feS63WC5dNnz1") {
+    person(id: "4RSTMo9W39aotcQ2qkBRAX") {
       name
+      socialTwitter
+      socialGithub
+      socialLinkedin
     }
   }
 `;
